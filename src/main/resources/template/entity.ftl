@@ -1,10 +1,11 @@
-package ${packName};
+package ${packName}.entity;
 
 import com.sirius.excel.Column;
 import com.sirius.excel.Entity;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.util.List;
+import java.util.Map;
 
 public class ${className} implements Entity{
 

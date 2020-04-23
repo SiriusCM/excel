@@ -1,4 +1,4 @@
-package ${packName};
+package ${packName}.entity;
 
 import com.sirius.excel.Criterion;
 import com.sirius.excel.Entity;

@@ -3,7 +3,9 @@ package com.sirius.excel;
 import org.apache.poi.ss.usermodel.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface Entity {
 
@@ -501,6 +503,21 @@ public interface Entity {
                     list.add(v);
                 }
                 return list;
+            }
+            case "Map<Integer,Integer>": {
+                Map<Integer, Integer> map = new HashMap<>();
+                if (object == null) {
+                    return map;
+                }
+                String value = object.toString();
+                if (value.isEmpty() || value.equals(" ")) {
+                    return map;
+                }
+                for (String entry : value.split(",")) {
+                    String[] e = entry.split(":");
+                    map.compute(Integer.parseInt(e[0]), (k, v) -> v == null ? Integer.parseInt(e[1]) : v + Integer.parseInt(e[1]));
+                }
+                return map;
             }
             default:
                 return null;

@@ -36,21 +36,19 @@ public abstract class Mapper {
                 }
             }
         } else {
-            if (file.getName().endsWith("xlsx")) {
+            if (file.getName().endsWith(".xlsx")) {
                 try {
                     Workbook workbook = WorkbookFactory.create(file);
                     Iterator<Sheet> iterator = workbook.sheetIterator();
                     while (iterator.hasNext()) {
                         Sheet sheet = iterator.next();
-                        String[] sheetName = sheet.getSheetName().split("\\|");
-                        if (sheetName.length < 2) {
-                            continue;
-                        }
-                        if (name.equals(sheetName[1])) {
+                        String sheetName = sheet.getSheetName();
+                        if (name.equals(sheetName)) {
                             list.add(sheet);
                             return list;
                         }
                     }
+                    workbook.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -438,5 +436,9 @@ public abstract class Mapper {
         } else {
             return index;
         }
+    }
+
+    public void close() throws IOException {
+        this.sheet.getWorkbook().close();
     }
 }
