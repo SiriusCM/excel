@@ -5,6 +5,7 @@ import com.sirius.excel.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ${className}Example implements Entity {
 

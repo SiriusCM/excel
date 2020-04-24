@@ -14,23 +14,54 @@ import java.util.List;
 public class ${className}Mapper extends Mapper {
 
     public ${className}Mapper(File file, int firstRow, int keyColumn) {
-        super(file,"${className}", firstRow, keyColumn);
+        super(file, "${className}", firstRow, keyColumn);
+    }
+
+    public ${className}Mapper(String filePath, int firstRow, int keyColumn) {
+        super(new File(filePath), "${className}", firstRow, keyColumn);
     }
 
     public int countByExample(${className}Example example) {
-        return 0;
-    }
-
-    public List<${className}> selectByExample(${className}Example example) {
-        List<${className}> list = new ArrayList<>();
+        int count = 0;
         if (example == null) {
-            return list;
+            count = sheet.getPhysicalNumberOfRows() - firstRow;
         } else {
-            List<${className}Example.Criteria> criteriaList = example.getOredCriteria();
             Iterator<Row> rowIterator = sheet.rowIterator();
             for (int i = 0; i < firstRow; i++) {
                 rowIterator.next();
             }
+            List<${className}Example.Criteria> criteriaList = example.getOredCriteria();
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                boolean result = false;
+                for (${className}Example.Criteria criteria : criteriaList) {
+                    boolean r = true;
+                    for (Criterion criterion : criteria.getAllCriteria()) {
+                        r = r && judge(row, example, criterion);
+                    }
+                    result = result || r;
+                }
+                if (result) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    public List<${className}> selectByExample(${className}Example example) {
+        List<${className}> list = new ArrayList<>();
+        Iterator<Row> rowIterator = sheet.rowIterator();
+        for (int i = 0; i < firstRow; i++) {
+            rowIterator.next();
+        }
+        if (example == null) {
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                list.add(new ${className}(row));
+            }
+        } else {
+            List<${className}Example.Criteria> criteriaList = example.getOredCriteria();
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
                 boolean result = false;

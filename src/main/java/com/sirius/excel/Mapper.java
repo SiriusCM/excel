@@ -26,6 +26,15 @@ public abstract class Mapper {
         this.keyColumn = keyColumn;
     }
 
+    protected Mapper(String filePath, String name, int firstRow, int keyColumn) {
+        List<Sheet> list = connect(new File(filePath), name);
+        if (!list.isEmpty()) {
+            sheet = list.get(0);
+        }
+        this.firstRow = firstRow;
+        this.keyColumn = keyColumn;
+    }
+
     private List<Sheet> connect(File file, String name) {
         List<Sheet> list = new ArrayList<>();
         if (file.isDirectory()) {

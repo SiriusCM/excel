@@ -77,7 +77,7 @@ public class ExcelGenerator {
         Iterator<Cell> iterator = typeRow.cellIterator();
         while (iterator.hasNext()) {
             Cell columnCell = iterator.next();
-            if (columnCell.getCellType() != CellType.STRING || columnCell.getStringCellValue().isEmpty() || !columnCell.getStringCellValue().contains("s")) {
+            if (columnCell.getCellType() != CellType.STRING || columnCell.getStringCellValue().isEmpty()) {
                 continue;
             }
             int column = columnCell.getColumnIndex();
